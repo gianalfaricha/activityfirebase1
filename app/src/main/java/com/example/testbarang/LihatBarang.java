@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -92,4 +93,5 @@ public class LihatBarang extends AppCompatActivity {
     public static Intent getActIntent(Activity activity){
         return new Intent(activity, LihatBarang.class);
     }
+
 }

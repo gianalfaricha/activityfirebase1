@@ -1,5 +1,9 @@
 package com.example.testbarang;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,18 +13,21 @@ import android.content.Context;
 import com.example.testbarang2.R;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AdapterLihatBarang extends
-        RecyclerView.Adapter<AdapterLihatBarang.ViewHolder> {
+public class AdapterLihatBarang extends RecyclerView.Adapter<AdapterLihatBarang.ViewHolder> {
     private ArrayList<Barang> daftarBarang;
     private Context context;
     public AdapterLihatBarang(ArrayList<Barang> barangs, Context ctx){
-        /**
-         * Inisiasi data dan variabel yang akan digunakan
-         */
         daftarBarang = barangs;
         context = ctx;
+
+        this.daftarBarang = barangs;
+        this.context = context;
+        listener = (dataListener) context;
     }
     class ViewHolder extends RecyclerView.ViewHolder {
         /**
@@ -62,10 +69,32 @@ public class AdapterLihatBarang extends
         });
         holder.tvTitle.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                /**
-                 * untuk latihan Selanjutnya ,fungsi Delete dan Update data
-                 */
+            public boolean onLongClick(final View view) {
+                final String[] action = {"Update", "Delete"};
+                AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                alert.setItems(action,  new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        switch (i){
+                            case 0:
+                                Bundle bundle = new Bundle();
+                                bundle.putString("dataKode", daftarBarang.get(position).getKode());
+                                bundle.putString("dataNama", daftarBarang.get(position).getNama());
+                                Intent intent = new Intent(view.getContext(), UpdateData.class);
+                                intent.putExtras(bundle);
+                                context.startActivity(intent);
+                                break;
+                            case 1:
+                                listener.onDeleteData(listBarang.get(position), position);
+                                break;
+                                break;
+                        }
+                    }
+                });
+                alert.create();
+                alert.show();
+
+
                 return true;
             }
         });
@@ -78,4 +107,17 @@ public class AdapterLihatBarang extends
          */
         return daftarBarang.size();
     }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+    }
+    public interface dataListener{
+        void onDeleteData(dataListener data, int position);
+    }
+    dataListener listener;
+
+
+
+
 }

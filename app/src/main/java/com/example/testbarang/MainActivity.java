@@ -12,6 +12,7 @@ import com.example.testbarang2.R;
 public class MainActivity extends AppCompatActivity {
     private Button bTambah;
     private Button bLihat;
+    private Button bUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         bTambah = (Button) findViewById(R.id.btnTambah);
         bLihat = (Button) findViewById(R.id.btnLihat);
+        bUpdate = (Button) findViewById(R.id.btnUpdate);
 
         bTambah.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -34,5 +36,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(LihatBarang.getActIntent(MainActivity.this));
             }
         });
+
+        bUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(LihatBarang.getActIntent(MainActivity.this));
+            }
+        });
+
     }
 }
